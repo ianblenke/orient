@@ -157,7 +157,7 @@
         $( "#main" ).trigger("create");
 
 	// Update the collapsible label
-        $( "#" + call.peer + " H4 a" ).html("Drone: " + peer.id);
+        $( "#" + call.peer + " H4 a" ).html("Drone: " + call.peer);
         $( "#drones" ).trigger("update");
 
 	// Attach the remoteStream to our video tag so we can see it
