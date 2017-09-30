@@ -1,6 +1,6 @@
 // drone page
 $(document).on('pagebeforeshow', '#drone' ,function(){
-  console.log("pagebeoreshow drone");
+  console.log("pagebeforeshow drone");
 });
 
 $(document).on('pageinit', '#drone' ,function(){

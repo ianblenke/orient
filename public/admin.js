@@ -4,7 +4,7 @@ $(document).on('pageinit', '#admin' ,function(){
 });
 
 $(document).on('pagebeforeshow', '#admin' ,function(){
-  console.log("pagebeoreshow admin");
+  console.log("pagebeforeshow admin");
 });
 
 $(document).on('pageshow', '#admin' ,function(){
