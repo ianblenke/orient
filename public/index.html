@@ -5,22 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Orient</title>
   <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+         crossorigin=""></script>
   <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
   <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script type="text/javascript" src="peer.js"></script>
+  <script type="text/javascript" src="/config.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="admin.js"></script>
+  <script type="text/javascript" src="drone.js"></script>
 </head>
 <body>
-  <div data-role="page">
+  <div id="index" data-role="page">
     <div data-role="header">
      <h1>Orient</h1>
     </div>
     <div data-role="navbar">
       <ul>
        <li>
-         <a href="drone.html"><img src="images/drone.svg" width="200" height="200">drone.html</img></a>
+         <a href="drone.html" data-prefetch="true"><img src="images/drone.svg" width="200" height="200">drone.html</img></a>
        </li>
        <li>
-         <a href="admin.html"><img src="images/admin.svg" width="200" height="200">admin.html</img></a>
+         <a href="admin.html" data-prefetch="true"><img src="images/admin.svg" width="200" height="200">admin.html</img></a>
        </li>
      </ul>
    </div>
