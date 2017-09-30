@@ -153,7 +153,6 @@
 
 	// Add a new collapsible item for this Drone
 	var drone = "<div id=\"" + call.peer + "\"><div data-role=collapsible>" + $( "#drone-template" ).html() + "</div></div>";
-        console.log("Appending " + drone + " to drones div tag");
         $( "#drones" ).append(drone);
         $( "#main" ).trigger("create");
 
@@ -212,7 +211,7 @@
 
     function positionError(err) {
       console.warn('errorPosition: ' + err.code + ': ' + err.message);
-      alarm("Timeout obtaining your position. Defaulting map view.");
+      alert("Timeout obtaining your position. Defaulting map view.");
       map.setView([0,0],0);
     }
 
