@@ -1,6 +1,14 @@
 // drone page
+$(document).on('pagebeforeshow', '#drone' ,function(){
+  console.log("pagebeoreshow drone");
+});
+
 $(document).on('pageinit', '#drone' ,function(){
   console.log("pageinit drone");
+});
+
+$(document).on('pageshow', '#drone' ,function(){
+  console.log("pageshow drone");
 
   var x;
   var y;
@@ -255,13 +263,5 @@ $(document).on('pageinit', '#drone' ,function(){
 
   // Trigger an orientationchange event
   $( window ).orientationchange();
-});
-
-$(document).on('pagebeforeshow', '#drone' ,function(){
-  console.log("pagebeoreshow drone");
-});
-
-$(document).on('pageshow', '#drone' ,function(){
-  console.log("pageshow drone");
 });
 

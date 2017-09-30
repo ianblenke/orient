@@ -1,6 +1,14 @@
 // admin page
 $(document).on('pageinit', '#admin' ,function(){
   console.log("pageinit admin");
+});
+
+$(document).on('pagebeforeshow', '#admin' ,function(){
+  console.log("pagebeoreshow admin");
+});
+
+$(document).on('pageshow', '#admin' ,function(){
+  console.log("pageshow admin");
 
   var markers = {};
   var map = L.map('map');
@@ -205,13 +213,5 @@ $(document).on('pageinit', '#admin' ,function(){
 
   $("#mapid").height($(window).height()).width($(window).width());
   map.invalidateSize();
-});
-
-$(document).on('pagebeforeshow', '#admin' ,function(){
-  console.log("pagebeoreshow admin");
-});
-
-$(document).on('pageshow', '#admin' ,function(){
-  console.log("pageshow admin");
 });
 
