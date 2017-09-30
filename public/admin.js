@@ -144,11 +144,11 @@ $(document).on('pageshow', '#admin' ,function(){
       // Add a new collapsible item for this Drone
       var drone = "<div id=\"" + call.peer + "\"><div data-role=collapsible>" + $( "#drone-template" ).html() + "</div></div>";
       $( "#drones" ).append(drone);
-      $( "#main" ).trigger("create");
+      $( "#" + call.peer ).trigger("create");
 
       // Update the collapsible label
       $( "#" + call.peer + " H4 a" ).html("Drone: " + call.peer);
-      $( "#drones" ).trigger("update");
+      $( "#" + call.peer ).trigger("update");
 
       // Attach the remoteStream to our video tag so we can see it
       $('#' + call.peer + " video").prop('src', URL.createObjectURL(remoteStream));

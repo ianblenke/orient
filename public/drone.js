@@ -36,11 +36,37 @@ $(document).on('pageshow', '#drone' ,function(){
     }
   };
 
+  var inputVideo = $( "#my-video" )[0];
+  var inputCtx = $( "#my-canvas" )[0].getContext( '2d' );
+
+  // Send the video to a canvas
+  function drawToCanvas() {
+    // draw the current frame of localVideo onto the canvas,
+    // starting at 0, 0 (top-left corner) and covering its full
+    // width and heigth
+    inputCtx.drawImage( inputVideo, 0, 0, inputVideo.videoWidth, inputVideo.videoHeight );
+
+    //repeat this every time a new frame becomes available using
+    //the browser's build-in requestAnimationFrame method
+    window.requestAnimationFrame( drawToCanvas );
+  }
+
   // Prepare the audio/video stream
   navigator.getUserMedia(media_constraints, function(stream){
-    // Show our self-view
+    // View our self-view
     $('#my-video').prop('src', URL.createObjectURL(stream));
-    // Remember our self-view stream
+/*
+    inputVideo.addEventListener("canplay", function(ev) {
+      console.log("canplay: " + inputVideo.videoWidth + " " + inputVideo.videoHeight);
+      $("#my-canvas").width(inputVideo.videoWidth);
+      $("#my-canvas").height(inputVideo.videoHeight);
+      $("#drone" ).trigger("update");
+      drawToCanvas();
+    });
+    // Remember our self-view stream from canvas rendered from video
+    window.localStream = $("#my-canvas")[0].captureStream();
+*/
+    // Remember our self-view stream directly from video
     window.localStream = stream;
   }, function(e){ console.log("Error in getUserMedia(): " + e.message); });
 
@@ -145,7 +171,6 @@ $(document).on('pageshow', '#drone' ,function(){
       // Show stream in some video/canvas element.
       console.log("call on answered stream");
     });
-    step3(call);
   });
 
   peer.on('close', function(){
@@ -172,8 +197,6 @@ $(document).on('pageshow', '#drone' ,function(){
 	  break;
 	default:
         alert(err.message);
-        // Return to step 2 if error occurs
-        step2();
     }
   });
 
