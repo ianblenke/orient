@@ -9,9 +9,9 @@ Links:
 - https://github.com/peers/peerjs
 - https://github.com/peers/peerjs-server
 - https://github.com/expressjs/express
-- https://github.com/jfhbrook/node-ecstatic
 - https://github.com/dorukeker/gyronorm.js
 - http://leafletjs.com/
+- https://jquerymobile.com/
 
 # Installation
 
