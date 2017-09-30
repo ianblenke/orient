@@ -26,6 +26,11 @@ if(process.env.SSL_KEY_FILE && process.env.SSL_CERT_FILE) {
   }, app).listen(port, function() {
     console.log(`HTTPS Listening on ${port}`)
   });
+
+  // Also support HTTP alongside HTTPS. Helps with reverse proxy deployments.
+  app.listen(port-1, function () {
+    console.log(`HTTP Listening on ${port-1}`)
+  });
 } else {
   server = app.listen(port, function () {
     console.log(`HTTP Listening on ${port}`)
@@ -44,7 +49,9 @@ app.get('/config.js', function (req, res) {
     output = output + `, peer: ${peer_config}`;
   }
   output = output + " };\n";
-  res.end(output, 'application/javascript');
+
+  res.setHeader('Content-Type', 'application/javascript');
+  res.send(output);
 });
 
 // Serve static content from public/ folder
