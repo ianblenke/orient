@@ -15,6 +15,7 @@ $(document).on('pageshow', '#admin' ,function(){
   var initialCenter = false;
   var drones = {};
   var admins = {};
+  var metrics = {};
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -57,6 +58,21 @@ $(document).on('pageshow', '#admin' ,function(){
         $( "#" + conn.peer + " td.motionAlpha").html(data.alpha);
         $( "#" + conn.peer + " td.motionBeta").html(data.beta);
         $( "#" + conn.peer + " td.motionGamma").html(data.gamma);
+
+        // Remember the orientation metrics so we can send them along with an image
+	if(!metrics[conn.peer]) {
+	  metrics[conn.peer] = {};
+        }
+	if(!metrics[conn.peer].orientation) {
+	  metrics[conn.peer].orientation = {};
+        }
+	metrics[conn.peer].orientation.x = data.x;
+	metrics[conn.peer].orientation.y = data.y;
+	metrics[conn.peer].orientation.z = data.z;
+	metrics[conn.peer].orientation.absolute = data.absolute;
+	metrics[conn.peer].orientation.alpha = data.alpha;
+	metrics[conn.peer].orientation.beta = data.beta;
+	metrics[conn.peer].orientation.gamma = data.gamma;
         break;
       case "geolocation":
         console.log("geolocation: " + conn.peer + ": " + JSON.stringify(data));
@@ -72,6 +88,16 @@ $(document).on('pageshow', '#admin' ,function(){
         }
         $( "#" + conn.peer + " td.geolocationLatitude").html(data.latitude);
         $( "#" + conn.peer + " td.geolocationLongitude").html(data.longitude);
+
+        // Remember the geolocation metrics so we can send them along with an image
+	if(!metrics[conn.peer]) {
+	  metrics[conn.peer] = {};
+        }
+	if(!metrics[conn.peer].geolocation) {
+	  metrics[conn.peer].geolocation = {};
+        }
+	metrics[conn.peer].geolocation.latitude = data.latitude;
+	metrics[conn.peer].geolocation.longitude = data.longitude;
         break;
       default:
         console.log("Unknown message received from " + conn.peer + ": " + JSON.stringify(data));
@@ -152,6 +178,45 @@ $(document).on('pageshow', '#admin' ,function(){
 
       // Attach the remoteStream to our video tag so we can see it
       $('#' + call.peer + " video").prop('src', URL.createObjectURL(remoteStream));
+
+      if(config.nifi.enabled) {
+        console.log("console.nifi.enabled is true");
+        var canvas = $("#" + call.peer + " canvas").get(0);
+        var video = $("#" + call.peer + " video").get(0);
+        var inputCtx = canvas.getContext( '2d' );
+
+        // Send the video to a canvas
+        function drawToCanvas() {
+          inputCtx.drawImage( video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, video.videoWidth, video.videoHeight );
+          var image = canvas.toDataURL('image/png', 1.0);
+          var data = {
+            metrics: metrics[call.peer],
+            image: image
+          }
+
+          // NIFI
+          $.ajax({
+            type: "POST",
+            url: config.nifi.url,
+            data: data,
+            timeout: 3000
+          }).done(function () {
+            console.log("ajax done");
+            //repeat this every time a new frame becomes available using
+            //the browser's build-in requestAnimationFrame method
+            //window.requestAnimationFrame( drawToCanvas );
+
+	    // repeat this drawToCanvas() function every 3 seconds
+            setInterval(function(){ drawToCanvas(); }, 3000);
+          });
+        }
+
+        video.addEventListener("canplay", function(ev) {
+          $("#drone" ).trigger("update");
+          drawToCanvas();
+        });
+      } // end of conditional config.nifi.enabled section
+
     });
 
     // Answer the call automatically (instead of prompting user) for demo purposes
@@ -206,8 +271,6 @@ $(document).on('pageshow', '#admin' ,function(){
 
   if ( navigator.geolocation ) {
     navigator.geolocation.getCurrentPosition(positionUpdate, positionError, positionOptions);
-  } else {
-    alert("GeoLocation is not available");
   }
 
   $("#mapid").height($(window).height()).width($(window).width());

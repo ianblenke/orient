@@ -17,6 +17,7 @@
   "author": "Ian Blenke <ian@blenke.com>",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "gyronorm": "^2.0.6",
     "peer": "^0.2.8"
   }
