@@ -201,8 +201,7 @@ $(document).on('pageshow', '#admin' ,function(){
 
   function positionError(err) {
     console.warn('errorPosition: ' + err.code + ': ' + err.message);
-    alert("Timeout obtaining your position. Defaulting map view.");
-    map.setView([0,0],0);
+    map.setView([27.9562929,-82.4376212],16);
   }
 
   if ( navigator.geolocation ) {
