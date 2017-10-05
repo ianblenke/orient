@@ -39,5 +39,5 @@ Now open a browser to your server:
 
     http://localhost:9999/
 
-If you are running your server on another host, substitude the IP or DNS name of the server for `localhost` above.
+If you are running your server on another host, substitute the IP or DNS name of the server for `localhost` above.
 
